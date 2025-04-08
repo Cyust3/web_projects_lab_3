@@ -1,15 +1,22 @@
 pipeline {
 
+    agent any
+
     stages {
         stage('Cloning Git') {
           steps {
-              git([url: 'https://git.athene.tech/romanov73/example-web.git', branch: 'master'])
+              git([url: 'https://github.com/Cyust3/web_projects_lab_3', branch: 'master'])
           }
         }
+        stage('Build') {
+            steps {
+                sh './gradlew clean build'
+            }
+        }
+
         stage('Test') {
             steps {
-                sh 'java -version'
-                sh "bash ./gradlew bootRun --args='--example-web.check-run=true'"
+                sh './gradlew test'
             }
         }
     }
